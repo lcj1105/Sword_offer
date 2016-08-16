@@ -7,12 +7,12 @@ struct ListNode{
 }
 
 // 求单链表中结点的个数  
-unsigned int GetListLength(ListNode * pHead)  
+size_t GetListLength(ListNode * pHead)  
 {  
     if(pHead == NULL)  
         return 0;  
   
-    unsigned int nLength = 0;  
+    size_t nLength = 0;  
     ListNode * pCurrent = pHead;  
     while(pCurrent != NULL)  
     {  
@@ -22,16 +22,23 @@ unsigned int GetListLength(ListNode * pHead)
     return nLength;  
 }  
 
-ListNode *FindKthToTail(ListNode* pListHead , unsigned int k){	
-	length = GetListLength(pListHead);
-	if (pListHead == NULL || k == 0 || length < k){
+ListNode *FindKthToTail(ListNode* pListHead , size_t k){	
+	//length = GetListLength(pListHead); //用这个不优雅，时间还得加上O(n)
+	if (pListHead == NULL || k == 0 ){
 		return NULL;
 	}
 	ListNode * pAhead = pListHead;
 	ListNode* pBehind = pListHead;
-	for (unsigned int i = 0; i < k-1; ++i){
+/*	for (size_t i = 0; i < k-1; ++i){
 		pAhead = pAhead->m_pNext;
+	}*/
+	while( k > 1 && pAhead != NULL ){
+		pAhead = pAhead->m_pNext;
+		--k;		
 	}
+	if( k > 1 || pAhead == NULL )
+		return NULL;
+	
 	while( pAhead != NULL ){
 		pAhead = pAhead->m_pNext;
 		pBehind = pAhead->m_pNext;
